@@ -127,9 +127,8 @@ updateFromRules d world =
         tree = KdTree.fromList boids
     in updateVecs d (calcForce (nearNeighbors tree) rules) world
 
-updateTxt :: Float -> World -> World
-updateTxt d world
-    = world {txt = show (mouseCoord world)}
+updateTxt :: World -> World
+updateTxt world = world {txt = show (mouseCoord world)}
 
 updateFromMouse :: Float -> World -> World
 updateFromMouse d world =
@@ -188,6 +187,6 @@ main = let dim = 800
                  respondToEvent
                  (\d w -> translateBoids
                           . updateFromRules d
-                          . updateTxt d
+                          . updateTxt
                           . updateFromMouse d
                           $ w)
