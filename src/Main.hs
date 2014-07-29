@@ -110,15 +110,6 @@ instance KdTree.Point Boid where
     coord 0 Boid {pos=(x,_)} = (float2Double x)
     coord 1 Boid {pos=(_,y)} = (float2Double y)
 
-updateBoids :: Float -> (Boid -> Vector) -> World -> World
-updateBoids d forceFn world =
-    let World {windowDim=dim, boids=boids,
-               momentum=momentum, maxVelocity=maxVelocity} = world
-    in world {boids = [translateBoid dim
-                       $ applyForce momentum maxVelocity boid
-                       $ mulSV d $ forceFn boid
-                       | boid <- boids]}
-
 updateVecs :: Float -> (Boid -> Vector) -> World -> World
 updateVecs d forceFn world =
     let World {boids=boids, momentum=momentum, maxVelocity=maxVelocity} = world
@@ -180,7 +171,7 @@ worldPic World {windowDim=dim, boids=boids, txt=txt} =
                  translateToOrigin fdim (pictures (boidPics boids))]
 
 main = let dim = 800
-           nBoids =50
+           nBoids = 50
            window = (InWindow "Flock" (dim, dim) (10, 10))
            in do
               g <- newStdGen
